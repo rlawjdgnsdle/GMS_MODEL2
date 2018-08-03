@@ -244,7 +244,7 @@ public class MemberDaoImpl implements MemberDao {
 			     + "   SSN,    "
 			     + "   ROLL,   "
 			     + "   TEAM_ID   "
-			     + " FROM MEMBER "
+			     + " FROM MEMBER  "
 				 + "	WHERE "
 				 + column
 				 + " LIKE'"
