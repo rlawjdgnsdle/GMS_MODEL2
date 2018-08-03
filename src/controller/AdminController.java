@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import command.Carrier;
 import command.Sentry;
 import enums.Action;
+import service.MemberServiceImpl;
 @WebServlet("/admin.do")
 public class AdminController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
@@ -44,9 +45,12 @@ public class AdminController extends HttpServlet{
 		case SEARCH :
 			System.out.println("서치서치 팀이름으로 검색 진입");
 			System.out.println(request.getAttribute("list"));
-			
 			Carrier.foward(request, response);
 			break;
+		case COUNT : 
+			System.out.println("어드민 컨트롤러 카운트 케이스");
+		    Carrier.foward(request, response);
+		    break;
 		default:
 			break;
 		}

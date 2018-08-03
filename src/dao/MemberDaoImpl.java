@@ -2,10 +2,13 @@ package dao;
 
 import java.util.*;
 import domain.*;
+import enums.Domain;
 import enums.MemberQuery;
 import enums.Vendor;
 import factory.DatabaseFactory;
 import pool.DBconstant;
+import template.PstmtQuery;
+import template.QuertTemplate;
 
 import java.sql.*;
 
@@ -46,19 +49,24 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public int countMember() {
+		System.out.println("===============Count DAO===============");
+		
 		int count = 0;
+		System.out.println("DB 가기 전 count : "+ count);
 		try {
 			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DBconstant.USERNAME, DBconstant.PASSWORD)
 					.getConnection()
 					.createStatement()
 					.executeQuery
-					(MemberQuery.COUNT_MEMBER.toString());
+					(MemberQuery.COUNT.toString());
 			while(rs.next()) {
 				count = rs.getInt("count");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("DB 갔다온 count : "+ count);
+		System.out.println("===============Count DAO===============");
 		
 		return count;
 	}
@@ -230,49 +238,16 @@ public class MemberDaoImpl implements MemberDao {
 	}
 	@Override
 	public List<MemberBean> findByWord(String word) {
-	List<MemberBean> llst = new ArrayList<>();
-	String column = word.split("/")[0];
-	String value = word.split("/")[1];
-	System.out.println("findByWord DAO");
-	System.out.println("column : "+column);
-	System.out.println("value : "+value);
-	System.out.println("findByWord DAO");
-		String sql = " SELECT "
-				 + "   MEM_ID, "
-			     + "   PASSWORD, "
-			     + "   MEM_NAME,   "
-			     + "   SSN,    "
-			     + "   ROLL,   "
-			     + "   TEAM_ID   "
-			     + " FROM MEMBER  "
-				 + "	WHERE "
-				 + column
-				 + " LIKE'"
-			     + "%"+value+"%' ";
-		try {
-			System.out.println("=============================SEARCH DAO=============================");
-			System.out.println("String word : "+word);
-			
-			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DBconstant.USERNAME, DBconstant.PASSWORD)
-							.getConnection()
-							.createStatement()
-							.executeQuery(sql);
-			MemberBean mem1 = null;
-			while (rs.next()) {
-				mem1 = new MemberBean(); 
-				mem1.setMemId(rs.getString("MEM_ID"));
-				mem1.setMemName(rs.getString("MEM_NAME"));
-				mem1.setPassword(rs.getString("PASSWORD"));
-				mem1.setRoll(rs.getString("ROLL"));
-				mem1.setSsn(rs.getString("SSN"));
-				mem1.setTeamId(rs.getString("TEAM_ID"));
-				llst.add(mem1);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		QuertTemplate q = new PstmtQuery();
+		List<MemberBean> llst = new ArrayList<>();
+		HashMap<String,Object> map = new HashMap<>();
+		map.put("column", word.split("/")[0]);
+		map.put("value", word.split("/")[1]);
+		map.put("table",Domain.MEMBER);
+		q.play(map);
+		for(Object s: q.getList()) {
+			llst.add((MemberBean)s);
 		}
-		System.out.println("=============================SEARCH DAO=============================");
 		return llst;
 	}
 

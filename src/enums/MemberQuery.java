@@ -2,7 +2,7 @@ package enums;
 
 public enum MemberQuery {
 	LOGIN, INSERT_MEMBER, 
-	COUNT_MEMBER, UPDATE, 
+	COUNT, UPDATE, 
 	SELECT_ALL_MEMBER, SELECT_ALL,
 	FINE_BY_TEAMNAME, FIND_BY_ID, 
 	DELETE, INSERT_ADMIN_MEMBER
@@ -35,13 +35,18 @@ public enum MemberQuery {
 			 ,'%s','%s','%s','%s'*/
 			break;
 				
-		case COUNT_MEMBER :
+		case COUNT :
 			query = "SELECT COUNT(*) AS count FROM MEMBER";
 			break;
 			
 		case SELECT_ALL :
-			query = "SELECT * FROM MEMBER";
+/*		query = "SELECT * FROM MEMBER";*/
+
+		query = "SELECT t.* FROM (SELECT ROWNUM seq, m.* FROM MEMBER m order by seq DESC)t where t.seq between 1 and 5";						
+			
 			break;
+			
+			
 		case SEARCH :
 			query = " SELECT "
 					 + "   MEM_ID, "

@@ -15,7 +15,9 @@ public class ListCommand extends Command {
 	}
 	@Override
 	public void execute() {
+		System.out.println("너어디sirh");
 		request.setAttribute("list", MemberServiceImpl.getInstance().listMember());
+		request.setAttribute("count",MemberServiceImpl.getInstance().countMember());
 		super.execute();
 	}
 }

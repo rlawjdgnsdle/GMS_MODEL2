@@ -23,7 +23,8 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public int countMember() {
-		return 0;
+		System.out.println("서비스 임플 카운트");
+		return MemberDaoImpl.getInstance().countMember();
 	}
 	@Override
 	public boolean login(MemberBean bean) {

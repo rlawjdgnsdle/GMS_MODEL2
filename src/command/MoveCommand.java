@@ -1,12 +1,8 @@
 package command;
 
-import java.util.List;
+
 
 import javax.servlet.http.HttpServletRequest;
-
-import domain.MemberBean;
-import enums.Domain;
-import service.MemberServiceImpl;
 
 public class MoveCommand extends Command {
 	public MoveCommand(HttpServletRequest request) {

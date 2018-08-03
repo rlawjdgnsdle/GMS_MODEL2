@@ -40,6 +40,7 @@ public class MemberContorller extends HttpServlet {
 				      break;
 				
 				case COUNT :  
+					System.out.println("멤버컨트롤러 ㅋㅏ운트");
 					Carrier.redirect(request, response, "");
 					break;
 				case UPDATE :  

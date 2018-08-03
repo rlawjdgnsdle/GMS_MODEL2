@@ -1,10 +1,6 @@
 package command;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
-import domain.MemberBean;
 import lombok.Data;
 
 @Data

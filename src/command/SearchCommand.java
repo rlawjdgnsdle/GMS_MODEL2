@@ -1,10 +1,9 @@
 package command;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
-import domain.MemberBean;
 import service.MemberServiceImpl;
+
+
 public class SearchCommand extends Command {
 	public SearchCommand(HttpServletRequest request) {
 		setRequest(request);

@@ -17,6 +17,10 @@ public class Commander implements Order {
 		case LIST:
 			cmd = new ListCommand(request);
 			break;
+		case COUNT :
+			System.out.println("카운트커맨드");
+			cmd = new CountCommand(request);
+			break;
 		case UPDATE:
 			cmd = new UpdateCommand(request);
 			break;

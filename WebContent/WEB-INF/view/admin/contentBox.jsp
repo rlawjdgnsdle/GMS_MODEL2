@@ -1,3 +1,4 @@
+<%@page import="service.MemberServiceImpl"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../common/head.jsp" />
@@ -20,6 +21,7 @@
 </script>
 	</div>
 		<h1>ADMIN MANGEMENT</h1>
+			전체회원수 : ${count} <br />
 			 <table id="contentBoxTab">
 			<tr id="contentBoxMeta">
 				<th>아 이 디</th>
@@ -39,6 +41,14 @@
 				<td>${member.teamId}</td>
 			</tr>
 			</c:forEach>
+			<tr>
+			<td colspan="6">
+	
+			 	<c:forEach begin="1" end="${count/5}" step="1" var="x">
+				<span>${x}</span> 
+				</c:forEach>
+				</td>
+			</tr>
 		</table>
 	</div>
 </div>
