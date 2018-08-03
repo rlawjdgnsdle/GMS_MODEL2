@@ -1,0 +1,171 @@
+
+.bgColorisYellow{background-color: #ffff00}
+
+body {
+	font-family: 'Malgun Gothic', 'Verdana';
+	background-color: #804040;
+	color: #fff;
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-size: 1.5em;
+}
+
+h1 {
+	font-size: 2em;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
+div#wrapper {
+	width: 90%;
+	padding-bottom: 0;
+	margin-bottom: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div#header {
+	position: relative;
+	margin-bottom: 0;
+	padding: 0;
+	color: #808080;
+}
+
+div#title-box {
+	float: left;
+	text-align: left;
+	display: block;
+}
+
+div#login-box {
+	float: right;
+	margin: 10px;
+	font-size: 1.1em;
+	display: block;
+	color: #ff0080;
+}
+
+div#login-box a:hover {
+	color: #0080ff;
+	text-decoration: mone;
+}
+
+div#login-box a:active {
+	color: #800040;
+	text-decoration: mone;
+}
+
+div#header h1 {
+	color: #408080;
+	padding: 5px 0;
+	margin: 0;
+	border: none;
+	line-height: 2em;
+	font-weight: bold;
+	font-size: 32px;
+}
+
+div#content {
+	padding: 1px 30px 15px 30px;
+	background-color: #804000;
+	margin-bottom: 30px;
+	min-height: 400px;
+}
+
+div#content-box {
+	clear: both;
+	margin-top: 40px;
+}
+
+div#menu-box {
+	clear: both;
+	margin-top: 40px;
+}
+
+ul#menu {
+	text-align: right;
+	margin: 0;
+	border-bottom: 1px #8000ff;
+	position: relative;
+}
+
+ul#menu li {
+	display: inline;
+	list-style: none;
+	background-color: #ff8040;
+}
+
+ul#menu li a {
+	padding: 10px 20px;
+	background-color: #c0c0c0;
+	font-weight: bold;
+	text-decoration: none;
+	line-height: 2.8em;
+	color: black;
+}
+
+ul#menu li a:hover {
+	background-color: #800040;
+	text-decoration: none;
+}
+
+ul#menu li a:active {
+	background-color: #8000ff;
+	text-decoration: none;
+}
+
+div#footer {
+	clear: both;
+	color: #fff;
+	text-align: center;
+	margin: 0;
+	padding: 10px 0;
+	line-height: normal;
+	font-size: 1.5em;
+}
+
+
+table tr td{border:1px solid black}
+.bgColorYellow{background-color:#ffff00}
+.center{margin : 0 auto}
+.width100pt{width:100%}
+.width90pt{width:90%}
+.width80pt{width:80%}
+.fontColorBlue{color:blue}
+.cursor{cursor:point}
+.marginTop30px{margin-top: 30px}
+.marginTop50px{margin-top: 50px}
+.marginLeft200px{margin-left: 200px}
+.marginRight30px{margin-right: 200px}
+.marginBot30px{margin-bottom: 30px}
+.marginBot50px{margin-bottom: 50px}
+.width300px{width:300px}
+.floatRight{float:right;}
+.div#titleBox{backGround-color : #000}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
