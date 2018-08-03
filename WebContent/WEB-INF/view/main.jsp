@@ -7,7 +7,7 @@
 <jsp:include page="common/head.jsp" />
 <body>
 	<!-- 여기는 그냥 메인이야 -->
-	
+<!-- 	// -->
 	<div id="wrapper">
 		<div id="header">
 
