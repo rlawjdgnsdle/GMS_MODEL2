@@ -17,4 +17,4 @@ public class Command implements Order {   //bean하고 service가 합쳐졌다�
 	this.view = "/WEB-INF/view/"+domain+"/"+page+".jsp";
 	}
 }
-//
+//11
