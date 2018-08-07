@@ -14,7 +14,7 @@ public class Commander implements Order {
 			System.out.println("조인진입이락");
 			cmd = new CreateCommand(request);
 			break;
-		case LIST:
+		case LIST :
 			cmd = new ListCommand(request);
 			break;
 		case COUNT :

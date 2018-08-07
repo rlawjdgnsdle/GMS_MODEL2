@@ -1,15 +1,19 @@
 package service;
 
 import java.util.List;
+import java.util.Map;
 
 import dao.MemberDaoImpl;
 import domain.MemberBean;
 
 public class MemberServiceImpl implements MemberService{
 	private static MemberService instance = new MemberServiceImpl();
+	
 	public static MemberService getInstance() {return instance;}
+	
 	private MemberServiceImpl() {session = new MemberBean();}
 	MemberBean session;
+	
 	@Override
 	public void insertMember(MemberBean Member) {
 		System.out.println("멤버 : "+ Member);
@@ -58,4 +62,11 @@ public class MemberServiceImpl implements MemberService{
 		System.out.println("서비스임플 리트리뷰트 : " + word +"   //////   "+MemberDaoImpl.getInstance().findById(word));
 		return MemberDaoImpl.getInstance().findById(word);
 	}
+	@Override
+	public List<MemberBean> getList(Map<?, ?> param) {
+		System.out.println("서비스임플 겟리스트 : "+ param);
+		System.out.println("서비스임플 겟리스트 : "+ MemberDaoImpl.getInstance().selectList(param));
+		return MemberDaoImpl.getInstance().selectList(param);
+	}
+	
 }

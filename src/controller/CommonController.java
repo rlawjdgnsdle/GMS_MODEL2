@@ -2,19 +2,13 @@ package controller;
 
 import java.io.IOException;
 
-import javax.annotation.Resources;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import command.Sentry;
-import enums.Domain;
 import enums.term;
-import jdk.nashorn.internal.ir.RuntimeNode.Request;
-
 
 @WebServlet("/common.do")
 public class CommonController extends HttpServlet {
@@ -27,6 +21,7 @@ protected void service(HttpServletRequest request,
 							HttpServletResponse response)
 			throws ServletException, IOException {
 	System.out.println("커먼컨트롤러진입");
+	
 	int i = 0;
 	for(Resources r : Resources.values()) {
 		if(i==0) {
@@ -49,3 +44,6 @@ protected void service(HttpServletRequest request,
 	System.out.println(term.WEBPATH.toString()+term.MAIN.toString());
 	}
 }
+
+
+

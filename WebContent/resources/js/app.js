@@ -46,6 +46,10 @@ var service = (()=>{
 	}
 }
 )();
+
+
+
+
 var admin = (()=>{
 	return {
 		check : x =>{
@@ -99,6 +103,18 @@ var admin = (()=>{
 							 /* alert('멤버 ID : '+this.getAttribute('id')); */
 						 });
 					 };
+
+					 for(var i of document.querySelectorAll('.pageNum')){
+						 i.style.color = 'blue';
+						 i.style.cursor = 'pointer';
+						 i.addEventListener('click', function(){
+							 location.href = x+'/admin.do?action=list&'
+							 				+  'page=main&pagenum='
+							 				+ this.getAttribute('id');
+						 });
+					 };
+					 
+					 
 					 /* document.getElementById('c  ontentBoxMeta').className = 'bgColorisBlack'; */
 					 document.getElementById('searchBtn')
 					 .addEventListener('click',function(){
@@ -109,6 +125,7 @@ var admin = (()=>{
 							+document.getElementById('searchOption').value+'&searchWord='+document.getElementById('searchWord').value
 							;
 					 	});
+					 	
 		}
 };})();
 var member = (()=>{ 

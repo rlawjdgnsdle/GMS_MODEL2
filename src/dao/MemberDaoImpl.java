@@ -284,6 +284,42 @@ public class MemberDaoImpl implements MemberDao {
 		return mem;
 	}
 
+	@Override
+	public List<MemberBean> selectList(Map<?, ?> param) {
+		List<MemberBean> lis = new ArrayList<>();
+		MemberBean mem = null;
+		String beginRow = (String) param.get("beginRow");
+		String endRow = (String) param.get("endRow");
+		System.out.println("시작 행  : "+ beginRow);
+		System.out.println("마지막 행  : "+ endRow);
+		try {
+			System.out.println("셀렉트리스 DB 가기 전");
+			ResultSet rs = DatabaseFactory.createDatabase(Vendor.ORACLE, DBconstant.USERNAME, DBconstant.PASSWORD)
+						.getConnection().createStatement().executeQuery(String.format(
+								MemberQuery.SELECT_ALL.toString(),
+								param.get("beginRow"),param.get("endRow")));
+			System.out.println("멤버쿼리 셀렉트올 : "+MemberQuery.SELECT_ALL.toString());
+			while (rs.next()) {
+				mem = new MemberBean(); 
+				mem.setMemId(rs.getString("MEM_ID"));
+				mem.setMemName(rs.getString("MEM_NAME"));
+				mem.setPassword(rs.getString("PASSWORD"));
+				mem.setRoll(rs.getString("ROLL"));
+				mem.setSsn(rs.getString("SSN"));
+				mem.setTeamId(rs.getString("TEAM_ID"));
+				lis.add(mem);
+			}
+			} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	System.out.println("셀렉트리스트 DB 갔다 옴…");
+			System.out.println("리스트 toString : "+lis.toString());
+		
+		return lis;
+	}
+	
+	
+
 
 
 	}

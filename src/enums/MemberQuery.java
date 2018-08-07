@@ -41,8 +41,10 @@ public enum MemberQuery {
 			
 		case SELECT_ALL :
 /*		query = "SELECT * FROM MEMBER";*/
-
-		query = "SELECT t.* FROM (SELECT ROWNUM seq, m.* FROM MEMBER m order by seq DESC)t where t.seq between 1 and 5";						
+			System.out.println("설렉트올 쿼리방문");
+		query = "SELECT t.* FROM "
+				+ "(SELECT ROWNUM seq, m.* FROM MEMBER m order by seq DESC)t"
+				+ " where t.seq between %s and %s ";						
 			
 			break;
 			
@@ -60,6 +62,7 @@ public enum MemberQuery {
 			break;
 		case FIND_BY_ID	:
 			System.out.println("파인드바이아이티 쿼리방문");
+			
 			query = "  SELECT "
 					 + "   MEM_ID, "
 				     + "   PASSWORD, "

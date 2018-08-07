@@ -41,14 +41,30 @@
 				<td>${member.teamId}</td>
 			</tr>
 			</c:forEach>
-			<tr>
+			<tr id = "page">
 			<td colspan="6">
-	
-			 	<c:forEach begin="1" end="${count/5}" step="1" var="x">
-				<span>${x}</span> 
-				</c:forEach>
+			  <ul class="pageBox">
+              <c:forEach begin="${beginPage}" end="${endPage}"
+						 step="1" varStatus="i"> 	
+                <li>
+                <span><a class="pageNum" id="${i.index}" >${i.index}</a></span> 
+                </li>
+                </c:forEach>    
+				<%-- <c:if test="${endPage eq (count/5)+(count%5)}"> --%>
+				<c:if test="${count lt 21}">
+					<li>다음▶</li>
+				</c:if>
+				<%-- <c:if test="${endPage ne (count/5)+(count%5)}">
+				<li>다음▶</li> --%>	
+             	
+             </ul>
 				</td>
+				
 			</tr>
+			<script>
+			
+			</script>
+		
 		</table>
 	</div>
 </div>
