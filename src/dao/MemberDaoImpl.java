@@ -1,14 +1,13 @@
 package dao;
 
 import java.util.*;
+
 import domain.*;
 import enums.Domain;
 import enums.MemberQuery;
 import enums.Vendor;
 import factory.DatabaseFactory;
 import pool.DBconstant;
-import template.PstmtQuery;
-import template.QuertTemplate;
 
 import java.sql.*;
 
@@ -236,7 +235,7 @@ public class MemberDaoImpl implements MemberDao {
 					.executeQuery(String.format(MemberQuery.SEARCH,toString(),word));*/
 		return lst1;
 	}
-	@Override
+	/*@Override
 	public List<MemberBean> findByWord(String word) {
 		QuertTemplate q = new PstmtQuery();
 		List<MemberBean> llst = new ArrayList<>();
@@ -249,7 +248,7 @@ public class MemberDaoImpl implements MemberDao {
 			llst.add((MemberBean)s);
 		}
 		return llst;
-	}
+	}*/
 
 	@Override
 	public MemberBean findById(String word) {
@@ -282,6 +281,12 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		System.out.println("===============파인드바이아이디 DAO 끝===============");
 		return mem;
+	}
+
+	@Override
+	public List<MemberBean> findByWord(String word) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

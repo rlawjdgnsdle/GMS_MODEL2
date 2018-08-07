@@ -3,3 +3,7 @@
 /template/
 /factory/
 /dao/
+/controller/
+/service/
+/proxy/
+/Pagination/
