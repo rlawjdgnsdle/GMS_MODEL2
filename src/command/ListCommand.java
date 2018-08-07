@@ -19,7 +19,7 @@ public class ListCommand extends Command {
 		setPage(request.getParameter("page"));
 		execute();
 	
-	}//
+	}////
 	@Override
 	public void execute() {
 		System.out.println("여기는 리스트 excute 메소드");
