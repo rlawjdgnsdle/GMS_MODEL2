@@ -18,7 +18,7 @@ public class MemberServiceImpl implements MemberService{
 	public void insertMember(MemberBean Member) {
 		System.out.println("멤버 : "+ Member);
 		MemberDaoImpl.getInstance().insertMember(Member);
-		//
+		// //
 	}
 	@Override
 	public List<MemberBean> listMember() {
