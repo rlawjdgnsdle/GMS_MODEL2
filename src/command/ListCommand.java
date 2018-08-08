@@ -2,12 +2,12 @@ package command;
 
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import domain.MemberBean;
+import proxy.PageProxy;
+import proxy.Pagination;
 import service.MemberServiceImpl;
 
 public class ListCommand extends Command {
@@ -23,95 +23,67 @@ public class ListCommand extends Command {
 	@Override
 	public void execute() {
 		System.out.println("여기는 리스트 excute 메소드");
-		int count = 100;
-		int pageSize = 5;   // 페이지의 크기
-		int blockSize = 5;  // 블락의 갯수
-		int pageCount = 0;  // 페이지 갯수
-		int blockCount =0;	//
-		int rowCount = MemberServiceImpl.getInstance().countMember();
-		/*int endRow = pageSize;*/
+		Map<String,Object> param = new HashMap<>();
 		String pageNum = request.getParameter("pageNum");
-		if(pageNum==null){
-			System.out.println("페이지가 없음");
-		}else{
-			System.out.println("페이지가 있음");
-		}
+		PageProxy pxy = new PageProxy();
+		int pn = (pageNum==null)
+				? 1:
+				Integer.parseInt(request.getParameter("pageNum"));
+		System.out.println("pn : "+pn);
+		pxy.carryout(pn);
+		Pagination page;
+		page = pxy.getPagination();
 		
-//		request.setAttribute("count",MemberServiceImpl.getInstance().countMember());
-		request.setAttribute("count","20");
-		request.setAttribute("beginPage", "1");
-		request.setAttribute("endPage", "5");
-		if(count/5<6) {
-			if(rowCount%pageSize==0) {
-				pageCount = rowCount/pageSize;
-			}else{
-				pageCount = rowCount/pageSize+1;
-			};
-			
-		int beginRow = 0;
-		int endRow = 0;
-			beginRow = Integer.parseInt(pageNum)*blockSize - (pageSize -1);
-			endRow = Integer.parseInt(pageNum)*pageSize;
-			int beginPage = 0;
-			int prevBlock = beginPage  - blockSize;
-			int nextBlock = beginPage + blockSize;
-			if(pageCount%blockSize==0) {
-				blockCount = pageCount/blockSize;
-			}else {
-				blockCount = pageCount/blockSize+1;
-			}
-			beginPage = 1;
-			int endPage = pageCount / blockSize;
-			beginRow = 1;
-			endRow = pageCount*pageSize;
-		HashMap<String, Object> param = new HashMap<>();
-		if(pageCount%blockSize==0) {
-			endPage = pageCount / blockSize;
-		}else {
-			endRow=0;
-			endPage = pageCount / blockSize + 1;
-		}	
-		if(Integer.parseInt(pageNum)!=endPage) {
-			endRow = Integer.parseInt(pageNum)*pageSize;
-			beginRow = endRow - (pageSize -1);
-		}else{
-			endRow = rowCount;
-		}
-		beginPage = Integer.parseInt(pageNum)*blockSize - (pageSize -1);
-		
-			/*endPage = ((beginPage + pageSize - 1) < pageCount));*/
-		if(rowCount/pageSize<pageSize+1) {
-			if(rowCount/pageSize==0) {
-					endPage = rowCount/pageSize;
-			}else {
-					endPage = rowCount/pageSize+1;
-			}
-		}else{
-			endPage = blockSize;
-			/*int prevBlock = (beginPage + pageSize -1)*/
-			
-			
-		};
-		boolean existPrev = false;
-		if(prevBlock >= 0) {
-			existPrev = true;
-		}
-		boolean existNext = false;
-		if(nextBlock >= 0) {
-			existPrev = true;
-		}
-		
-		Map<String, Object> map = new HashMap<>();
-		/*HashMap<String, Object> map = new HashMap<>();*/
-		param.put("beginRow", beginRow);
-		param.put("endRow", endRow);
-		System.out.println(beginRow);
-		System.out.println(endRow);
-		List<MemberBean> mems = MemberServiceImpl.getInstance().getList(param);
-		request.setAttribute("count", rowCount);
-		request.setAttribute("beginPage", beginPage);
-		request.setAttribute("endPage", endPage);
-		request.setAttribute("list", MemberServiceImpl.getInstance().getList(param));
+		request.setAttribute("rowCount", page.getRowCount());
+		param.put("beginRow", String.valueOf(page.getBeginRow()));
+		param.put("endRow", String.valueOf(page.getEndRow()));
+		request.setAttribute("page", page);
+		request.setAttribute("list",MemberServiceImpl.getInstance()
+				.getList(param));
 		super.execute();
-		}}}
+		
+		}}
 
+/*request.setAttribute("count",  //로우카운트
+		MemberServiceImpl.getInstance().countMember());
+int rowCount = MemberServiceImpl.getInstance().countMember();
+int pageSize = 5;
+int blockSize = 5;	
+int beginPage = 0;
+int endPage = 0; 
+int pageNum = (request.getParameter("pageNum")==null)? 
+		1 : Integer.parseInt(request.getParameter("pageNum")); 
+int beginRow = 0; 
+int endRow= 0; 
+int pageCount =  (int) Math.ceil(rowCount/(double)pageSize);
+
+System.out.println("페이지카운트 "+ pageCount);
+
+int blockCount = (int) Math.ceil(pageCount/(double)blockSize);
+
+System.out.println("블락카운트 " + blockCount);
+beginPage = pageNum - ((pageNum-1)%blockSize);
+System.out.println("비긴페이지 " + beginPage);
+endPage = ((beginPage + pageSize -1) < pageCount)?
+		beginPage+blockSize-1:pageCount;
+System.out.println("엔드페이지 " + endPage);
+beginRow = pageNum*pageSize - (pageSize-1);
+System.out.println("비긴로우 " + beginRow);
+endRow = pageNum*pageSize;
+System.out.println("엔드로우 " + endRow);
+int prevBlock = beginPage - blockSize;
+int nextBlock = beginPage + blockSize;
+boolean existPrev = false;
+if(prevBlock >=0) {
+existPrev = true;
+}
+boolean existNext = false;
+if(nextBlock <= pageCount) {
+existNext = true;
+}
+request.setAttribute("existPrev", existPrev);
+request.setAttribute("existNext", existNext);
+request.setAttribute("beginPage", beginPage);
+request.setAttribute("endPage", endPage); 
+param.put("beginRow", String.valueOf(beginRow));
+param.put("endRow", String.valueOf(endRow)); //담아서 던짐. */

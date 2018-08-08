@@ -50,7 +50,7 @@ public enum MemberQuery {
 			
 			
 		case SEARCH :
-			query = " SELECT "
+		query = " SELECT "
 					 + "   MEM_ID, "
 				     + "   PASSWORD, "
 				     + "   MEM_NAME,   "
@@ -59,10 +59,24 @@ public enum MemberQuery {
 				     + "   TEAM_ID   "
 				     + " FROM MEMBER "
 					 + "	WHERE TEAM_ID LIKE '%s' ";
+			
+	/*		query = "SELECT B.* "
+					+ " FROM ( "
+					+ " SELECT "
+					+ " ROWNUM NO, "
+					+ " A.* "
+					+ " FROM ( "
+				+ " SELECT MEM_ID "
+				+ " FROM MEMBER "
+				+ " ) A "
+			+ " ORDER BY NO DESC "
+			+ ") B "
+			+ " WHERE B.NO BETWEEN 1 AND 5 "
+			;*/
+
 			break;
 		case FIND_BY_ID	:
 			System.out.println("파인드바이아이티 쿼리방문");
-			
 			query = "  SELECT "
 					 + "   MEM_ID, "
 				     + "   PASSWORD, "

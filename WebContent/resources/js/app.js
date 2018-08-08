@@ -125,7 +125,7 @@ var admin = (()=>{
 							+document.getElementById('searchOption').value+'&searchWord='+document.getElementById('searchWord').value
 							;
 					 	});
-					 	
+					
 		}
 };})();
 var member = (()=>{ 

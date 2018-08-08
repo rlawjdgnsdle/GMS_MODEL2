@@ -21,7 +21,7 @@
 </script>
 	</div>
 		<h1>ADMIN MANGEMENT</h1>
-			전체회원수 : ${count} <br />
+			전체회원수 : ${page.rowCount} <br />
 			 <table id="contentBoxTab">
 			<tr id="contentBoxMeta">
 				<th>아 이 디</th>
@@ -44,19 +44,27 @@
 			<tr id = "page">
 			<td colspan="6">
 			  <ul class="pageBox">
-              <c:forEach begin="${beginPage}" end="${endPage}"
+			  
+			  <c:if test="${page.existPrev}">
+					<li class="pageNum" id= "prevBlock">◀이전</li>
+				</c:if>
+				
+              <c:forEach begin="${page.beginPage}"
+						 end="${page.endPage}"
 						 step="1" varStatus="i"> 	
                 <li>
+                
+                
+                                
                 <span><a class="pageNum" id="${i.index}" >${i.index}</a></span> 
                 </li>
                 </c:forEach>    
 				<%-- <c:if test="${endPage eq (count/5)+(count%5)}"> --%>
-				<c:if test="${count lt 21}">
-					<li>다음▶</li>
-				</c:if>
-				<%-- <c:if test="${endPage ne (count/5)+(count%5)}">
-				<li>다음▶</li> --%>	
-             	
+				
+				<c:if test="${page.existNext}">
+				<li id = "${page.nextBlock}" class="pageNum" >다음▶</li> 
+				
+             	</c:if>
              </ul>
 				</td>
 				
