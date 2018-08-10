@@ -109,7 +109,7 @@ var admin = (()=>{
 						 i.style.cursor = 'pointer';
 						 i.addEventListener('click', function(){
 							 location.href = x+'/admin.do?action=list&'
-							 				+  'page=main&pagenum='
+							 				+  'page=main&pageNum='
 							 				+ this.getAttribute('id');
 						 });
 					 };
