@@ -15,6 +15,7 @@ import java.sql.*;
 public class MemberDaoImpl implements MemberDao {
 	private static MemberDao instance = new MemberDaoImpl();
 	public static MemberDao getInstance() {return instance;}
+	private MemberDaoImpl() {}
 	
 	@Override					
 	public List<MemberBean> selectAllMember() {

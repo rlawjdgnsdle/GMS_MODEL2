@@ -14,11 +14,11 @@ public class Pagination implements Proxy {
 	int beginRow = 0;
 	int endRow = 0;
 	int beginPage = 0;
-	int endPage = 0;
-	int prevBlock = 0;
 	int nextBlock = 0;
 	int pageNum = 0;
 	int rowCount = 0;
+	int endPage = 0;
+	int prevBlock = 0;
 	boolean existPrev = false;
 	boolean existNext = false;
 	
