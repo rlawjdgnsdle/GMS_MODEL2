@@ -12,10 +12,7 @@
 									
 			
 	<script>
-	document.getElementById('moveToAdminMain')
-	.addEventListener('click',function(){  //콜백함수
-	admin.check("${context}");
-}); 
+
 	</script>						
 									
 </div>

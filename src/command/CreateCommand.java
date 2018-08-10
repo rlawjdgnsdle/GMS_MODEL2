@@ -29,7 +29,7 @@ public class CreateCommand extends Command{
 		    mem.setRoll(request.getParameter("roll"));
 		    mem.setTeamId(request.getParameter("teamid"));
 		    mem.setSubject(ParamMap.getValues(request, "subject"));
-		    MemberServiceImpl.getInstance().insertMember(mem);
+		    MemberServiceImpl.getInstance().add(mem);
 		    System.out.println("회원가입 성공!!");
 		    break;
 		default:

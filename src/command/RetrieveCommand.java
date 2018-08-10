@@ -19,7 +19,7 @@ public void execute() {
 	request.setAttribute("member"
 			,MemberServiceImpl
 			.getInstance()
-			.findById(request.getParameter("userid")));
+			.retrieve(request.getParameter("userid")));
 	super.execute();
 }
 }

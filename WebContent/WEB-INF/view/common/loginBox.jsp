@@ -11,7 +11,7 @@
 	router.move({context : '${context}',
 		domain : 'member',
 		action : 'move',
-		page : 'user_login_Form'});
+		page : 'login'});
 });
 	
 	document.getElementById('moveJoinForm')
@@ -20,6 +20,6 @@
 	router.move({context : '${context}',
 		domain : 'member',
 		action : 'move',
-		page : 'joinForm'});
+		page : 'add'});
 });
 </script>

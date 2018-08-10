@@ -6,8 +6,8 @@ import domain.MemberBean;
 import enums.Domain;
 import service.MemberServiceImpl;
 
-public class DeleteCommand extends Command {
-	public DeleteCommand(HttpServletRequest request) {
+public class RemoveCommand extends Command {
+	public RemoveCommand(HttpServletRequest request) {
 		setRequest(request);
 		setDomain(request.getServletPath().substring(1, request.getServletPath().indexOf(".")));
 		setAction(request.getParameter("action"));
@@ -22,7 +22,7 @@ public class DeleteCommand extends Command {
 		System.out.println("딜리트커맨드에서 DB가기 전");
 		bean.setMemId(request.getParameter("userid"));
 		bean.setPassword(request.getParameter("password"));
-		MemberServiceImpl.getInstance().deleteMember(bean);
+		MemberServiceImpl.getInstance().remove(bean);
 		System.out.println("DELETE 커맨드 안에서 DB 갔다옴");
 		super.execute();
 		}

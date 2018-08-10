@@ -19,19 +19,16 @@ public class MemberContorller extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("멤버컨트롤러진입");
 		
-		Sentry.init(request);
+		Receiver.init(request);
 		
-		System.out.println("액션 : "+Sentry.cmd.getAction());
-		switch (Action.valueOf(Sentry.cmd.getAction().toUpperCase())) {
-				case MOVE :
-					System.out.println("무브진입");
-					Carrier.foward(request, response);
-					break;
-				case JOIN :  
+		System.out.println("액션 : "+Receiver.cmd.getAction());
+		switch (Action.valueOf(Receiver.cmd.getAction().toUpperCase())) {
+				
+				case ADD :  
 					System.out.println("조인진입");
 					Carrier.redirect(request, response, "/member.do?action=move&page=user_login_form");
 				    break;
-				case LIST : 
+				case RETRIEVE : 
 					System.out.println("리스트진입");
 					Carrier.redirect(request, response, "/member.do?action=move&page=user_login_form");
 					break;
@@ -43,7 +40,7 @@ public class MemberContorller extends HttpServlet {
 					System.out.println("멤버컨트롤러 ㅋㅏ운트");
 					Carrier.redirect(request, response, "");
 					break;
-				case UPDATE :  
+				case MODIFY :  
 					System.out.println("멤버컨트롤러에서 UPDATE case 진입");
 					Carrier.redirect(request, response, "/member.do?action=move&page=user_login_Form");
 				      break;
@@ -56,11 +53,16 @@ public class MemberContorller extends HttpServlet {
 								"/member.do?action=move&page=user_login_Form");
 					}
 					break;
-				case DELETE : 
+				case REMOVE : 
 					System.out.println("삭제 컨트롤러 진입");
 					request.getSession().invalidate();
 					Carrier.redirect(request, response, "/member.do?action=move&page=user_login_Form");
 					break;
+				case MOVE :
+					System.out.println("무브진입");
+					Carrier.foward(request, response);
+					break;
+					
 				default:
 					Carrier.redirect(request, response, "");
 					break;

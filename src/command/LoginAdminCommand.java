@@ -22,7 +22,7 @@ public class LoginAdminCommand extends Command {
 		System.out.println("로그인커맨드 안에서 DB가기전");
 		if(MemberServiceImpl.getInstance().login(bean)) {
 			request.setAttribute("match", "TRUE");
-			request.setAttribute("user", MemberServiceImpl.getInstance().findById(request.getParameter("userid")));
+			request.setAttribute("user", MemberServiceImpl.getInstance().retrieve(request.getParameter("userid")));
 		}else {
 			request.setAttribute("match", "FALSE");
 		}

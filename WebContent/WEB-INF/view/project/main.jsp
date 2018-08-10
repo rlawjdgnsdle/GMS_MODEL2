@@ -12,7 +12,9 @@
 <body>
 	<div id="wrapper">
 		<div id="header">
+
 			<jsp:include page="../common/titleBox.jsp" />
+
 			<div id="menu">
 				<jsp:include page="../common/menuBox.jsp" />
 			</div>

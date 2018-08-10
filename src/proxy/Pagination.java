@@ -25,21 +25,22 @@ public class Pagination implements Proxy {
 	@Override
 	public void carryout(Object o) {
 		this.pageNum = (int)o;
-		System.out.println("페이지넘버는 "+pageNum);
+		System.out.println("1. 페이지넘버는 "+pageNum);
+		System.out.println("2. beginRow : "+beginRow);
 		this.pageSize = 5;
 		this.blockSize = 5;
-		this.rowCount = MemberServiceImpl.getInstance().countMember();
-		System.out.println("rowCount: "+ rowCount);
+		this.rowCount = MemberServiceImpl.getInstance().count();
+		System.out.println("3. rowCount: "+ rowCount);
 		this.pageCount = (rowCount%pageSize==0)?
 					rowCount/pageSize : rowCount/pageSize+1;
-		System.out.println("pageCount : "+pageCount);
+		System.out.println("4. pageCount : "+pageCount);
 		this.blockCount = (pageCount%blockSize==0)?
 					pageCount/blockSize : pageCount/blockSize + 1;
 		System.out.println("blockCount : "+blockCount);
 		this.beginRow = pageNum*pageSize - (pageSize -1);
-		System.out.println("beginRow : "+beginRow);
+		System.out.println("5. beginRow : "+beginRow);
 		this.endRow = pageNum*pageSize;
-		System.out.println("endRow : "+endRow);
+		System.out.println("6. endRow : "+endRow);
 		
 
 		this.beginPage = pageNum - ((pageNum-1)%blockSize);
@@ -52,9 +53,9 @@ public class Pagination implements Proxy {
 		this.nextBlock = beginPage + blockSize;
 		System.out.println("nextBlock : "+nextBlock);
 		this.existPrev = (prevBlock >= 0);
-		System.out.println("existPrev : "+existPrev);
+		System.out.println("existPrev>>>>> : "+existPrev);
 		this.existNext = (nextBlock <= pageCount);
-		System.out.println("existNext : "+existNext);
+		System.out.println("existNext>>>>> : "+existNext);
 	}
 		
 }

@@ -21,7 +21,7 @@ public class CreateAdminCommand extends Command {
 		    mem.setMemName(request.getParameter("name"));
 		    mem.setPassword(request.getParameter("password"));
 		    mem.setSsn(request.getParameter("SSN"));
-		    MemberServiceImpl.getInstance().insertMember(mem);
+		    MemberServiceImpl.getInstance().add(mem);
 		    System.out.println("회원가입 성공!!");
 	}
 }

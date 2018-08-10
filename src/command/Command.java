@@ -10,7 +10,8 @@ public class Command implements Order {   //bean하고 service가 합쳐졌다�
 
 	@Override
 	public void execute() {
+		System.out.println("커맨드 오더진입");
 	this.view = "/WEB-INF/view/"+domain+"/"+page+".jsp";
 	}
 }
-//11
+//1111

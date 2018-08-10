@@ -27,7 +27,7 @@ public class LoginCommand extends Command {
 			request.setAttribute("match", "TRUE");
 			request.getSession().setAttribute("user", MemberServiceImpl
 					.getInstance()  
-					.findById(request.getParameter("userid")));
+					.retrieve(request.getParameter("userid")));
 		}else {
 			request.setAttribute("match", "FALSE");
 		}

@@ -39,9 +39,14 @@ protected void service(HttpServletRequest request,
 					request.getContextPath()); //컨택스트패스와 리퀘스트는 연관관계이기때문에 리퀘스트는 죽지 않는다
 */	
 	request.getRequestDispatcher(
-		term.WEBPATH.toString()+term.MAIN.toString())
-	.forward(request, response);
-	System.out.println(term.WEBPATH.toString()+term.MAIN.toString());
+		 term.WEBPATH.toString()
+		/*+term.COMMON.toString()*/
+		+"/"
+		+request.getServletPath().split("/")[1].split("\\.")[0]
+		+"/"
+		+term.MAIN.toString())
+		.forward(request, response);
+	System.out.println(term.WEBPATH.toString()+term.COMMON.toString()+term.MAIN.toString());
 	}
 }
 

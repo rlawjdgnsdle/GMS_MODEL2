@@ -1,12 +1,11 @@
 package enums;
 
 public enum MemberQuery {
-	LOGIN, INSERT_MEMBER, 
-	COUNT, UPDATE, 
-	SELECT_ALL_MEMBER, SELECT_ALL,
-	FINE_BY_TEAMNAME, FIND_BY_ID, 
-	DELETE, INSERT_ADMIN_MEMBER
-	, UPDATE_TEAMID	, UPDATE_ROLL, SEARCH, FINDBYNAME;
+	ADD,
+	LIST, SEARCH, RETRIEVE, COUNT, 
+	UPDATE,
+	DELETE,
+	LOGIN;
 
 	@Override
 	public String toString() {
@@ -25,11 +24,11 @@ public enum MemberQuery {
 					+ " AND PASSWORD LIKE '%s' ";
 			break;
 	
-		case INSERT_MEMBER:
+		case ADD :
 			query = "INSERT INTO MEMBER "
 					+ "(MEM_ID, MEM_NAME, SSN, PASSWORD) "
 					+ "VALUES "
-					+ "('%s','%s','%s','%s')";
+					+ "(? , ? , ? , ?)";
 			/*
 			 TEAM_ID, GENDER, AGE, ROLL
 			 ,'%s','%s','%s','%s'*/
@@ -39,18 +38,28 @@ public enum MemberQuery {
 			query = "SELECT COUNT(*) AS count FROM MEMBER";
 			break;
 			
-		case SELECT_ALL :
-/*		query = "SELECT * FROM MEMBER";*/
+		case LIST :
+		/*query = "SELECT * FROM MEMBER";*/
 			System.out.println("설렉트올 쿼리방문");
-		query = "SELECT t.* FROM "
-				+ "(SELECT ROWNUM seq, m.* FROM MEMBER m order by seq DESC)t"
-				+ " where t.seq between %s and %s ";						
-			
+			query = "SELECT B.* "
+					+ " FROM ( "
+					+ " SELECT "
+					+ " ROWNUM NO, "
+					+ " A.* "
+					+ " FROM ( "
+					+ " SELECT MEM_ID "
+					+ " FROM MEMBER "
+					+ " ) A "
+					+ " ORDER BY NO DESC "
+					+ ") B "
+					+ " WHERE B.NO BETWEEN ? AND ? "
+					;	
 			break;
-			
-			
 		case SEARCH :
-		query = " SELECT "
+			query = "SELECT t.* FROM "
+					+ "(SELECT ROWNUM seq, m.* FROM MEMBER m WHERE %s LIKE ? order by seq DESC)t"
+					+ " where t.seq between ? and ? ";	
+		/*query = " SELECT "
 					 + "   MEM_ID, "
 				     + "   PASSWORD, "
 				     + "   MEM_NAME,   "
@@ -58,47 +67,34 @@ public enum MemberQuery {
 				     + "   ROLL,   "
 				     + "   TEAM_ID   "
 				     + " FROM MEMBER "
-					 + "	WHERE TEAM_ID LIKE '%s' ";
+					 + "	WHERE TEAM_ID LIKE '%s' ";*/
 			
-	/*		query = "SELECT B.* "
-					+ " FROM ( "
-					+ " SELECT "
-					+ " ROWNUM NO, "
-					+ " A.* "
-					+ " FROM ( "
-				+ " SELECT MEM_ID "
-				+ " FROM MEMBER "
-				+ " ) A "
-			+ " ORDER BY NO DESC "
-			+ ") B "
-			+ " WHERE B.NO BETWEEN 1 AND 5 "
-			;*/
-
 			break;
-		case FIND_BY_ID	:
+		case RETRIEVE	:
 			System.out.println("파인드바이아이티 쿼리방문");
 			query = "  SELECT "
-					 + "   MEM_ID, "
+					+ " * "
+					/* + "   MEM_ID, "
 				     + "   PASSWORD, "
 				     + "   MEM_NAME,   "
 				     + "   SSN,    "
 				     + "   ROLL,   "
-				     + "   TEAM_ID   "
+				     + "   TEAM_ID   "*/
 					 + "   FROM  MEMBER   "
-					 + "   WHERE MEM_ID LIKE '%s'  ";
+					 + "   WHERE MEM_ID LIKE ?  ";
 			break;
 		case DELETE : 
 			query = " DELETE FROM MEMBER "
-					+ " WHERE MEM_ID LIKE '%s'   "
-					+ " AND PASSWORD LIKE '%s'  ";
+					+ " WHERE MEM_ID LIKE ?   "
+					+ " AND PASSWORD LIKE ?   ";
 			break;
 		case UPDATE : 
 			System.out.println("비밀번호 업데이트 쿼리 방문");
-			query = "UPDATE MEMBER SET PASSWORD = '%s' , TEAM_ID ='%s', ROLL = '%s' " 
-					+ "WHERE MEM_ID LIKE '%s' "
-					+ "AND PASSWORD LIKE '%s'";
+			query = "UPDATE MEMBER SET %s = ? " 
+					+ "WHERE MEM_ID LIKE ? "
+					+ "AND PASSWORD LIKE ?' ";
 			break;
-		case FINDBYNAME :
+/*		case SEARCH :
 			System.out.println("파인드바이네임 쿼리 진입");
 			query = "  SELECT "
 					 + "   MEM_ID, "
@@ -109,7 +105,7 @@ public enum MemberQuery {
 				     + "   TEAM_ID   "
 					 + "   FROM  MEMBER   "
 					 + "   WHERE MEM_NAME LIKE '%s'  ";
-			break;
+			break;*/
 		default:
 			break;
 		}

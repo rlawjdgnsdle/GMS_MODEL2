@@ -9,19 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import command.Carrier;
-import command.Sentry;
+import command.Receiver;
 import enums.Action;
 import service.MemberServiceImpl;
 @WebServlet("/admin.do")
 public class AdminController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("어드민컨트롤러진입 어드민컨트롤러진입 어드민컨트롤러진입 어드민컨트롤러진입 어드민컨트롤러진입 어드민컨트롤러진입 ");
 		String page = request.getParameter("page");
 //		String action = request.getParameter("action");
-		Sentry.init(request);
-		System.out.println("어드민컨트롤러진입  ");
-		switch (Action.valueOf(Sentry.cmd.getAction().toUpperCase())) {
+		Receiver.init(request);
+		System.out.println("어드민컨트롤러진입");
+		System.out.println(Action.valueOf(Receiver.cmd.getAction().toUpperCase()));
+		switch (Action.valueOf(Receiver.cmd.getAction().toUpperCase())) {
 		case MOVE :
 			System.out.println("어드민무브진입");
 			Carrier.foward(request, response);

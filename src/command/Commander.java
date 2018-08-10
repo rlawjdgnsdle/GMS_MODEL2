@@ -10,19 +10,19 @@ public class Commander implements Order {
 			System.out.println("무무무브브브 진진진입입입");
 			cmd = new MoveCommand(request);
 					break;
-		case JOIN :			
+		case ADD :			
 			System.out.println("조인진입이락");
 			cmd = new CreateCommand(request);
 			break;
 		case LIST :
-			cmd = new ListCommand(request);
+			cmd = new SearchCommand(request);
 			break;
 		case COUNT :
 			System.out.println("카운트커맨드");
 			cmd = new CountCommand(request);
 			break;
-		case UPDATE:
-			cmd = new UpdateCommand(request);
+		case MODIFY:
+			cmd = new ModifyCommand(request);
 			break;
 		case SEARCH:
 			System.out.println("커맨더 서치 진입");
@@ -31,10 +31,10 @@ public class Commander implements Order {
 		case LOGIN : 
 			cmd = new LoginCommand(request);
 			break;
-		case DELETE :
+		case REMOVE :
 			System.out.println("딜딜딜딜리리트트");
 			
-			cmd = new DeleteCommand(request);
+			cmd = new RemoveCommand(request);
 			break;
 		case ADMINJOIN :
 			cmd = new CreateAdminCommand(request);

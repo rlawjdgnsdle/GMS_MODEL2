@@ -46,29 +46,35 @@ var service = (()=>{
 	}
 }
 )();
-
+var common = (()=>{
+	return {
+		main : x =>{
+			document.getElementById('moveToAdminMain')
+			.addEventListener('click',function(){  //콜백함수
+				var isAdmin = confirm('관리자입니까');
+				if(isAdmin){
+					var password = prompt('관리자 비번을 입력바랍니다');
+				if(password == 1){
+						router.move({context : x,
+							domain : 'admin',
+							action : 'list',
+							page : 'main'
+						 });
+					}else{
+						alert('꺼져')
+					}
+				}else{
+					alert('꺼져')
+				}
+		}); 
+		}
+	};
+})();
 
 
 
 var admin = (()=>{
 	return {
-		check : x =>{
-//			var isAdmin = confirm('관리자입니까');
-//			if(isAdmin){
-//				var password = prompt('관리자 비번을 입력바랍니다');
-//				if(password == 1){
-					router.move({context : x,
-						domain : 'admin',
-						action : 'list',
-						page : 'main'
-					 });
-				/*}else{
-					alert('꺼져')
-				}
-			}else{
-				alert('꺼져')
-			}*/
-		},
 		main : x=>{ 
 			 service.addClass(
 						document.getElementById('searchBox'),'width80pt center '		 
@@ -108,11 +114,17 @@ var admin = (()=>{
 						 i.style.color = 'blue';
 						 i.style.cursor = 'pointer';
 						 i.addEventListener('click', function(){
+							 
 							 location.href = x+'/admin.do?action=list&'
-							 				+  'page=main&pagenum='
+							 				+  'page=main&pageNum='
 							 				+ this.getAttribute('id');
 						 });
+							document.getElementById('moveToAdminMain')
+							.addEventListener('click',function(){  //콜백함수
+							admin.check("${context}");
+						}); 
 					 };
+					 
 					 
 					 
 					 /* document.getElementById('c  ontentBoxMeta').className = 'bgColorisBlack'; */

@@ -7,9 +7,9 @@ public class Carrier {  //보내는 일 외에는 하지 않는다.
 	public static void foward(HttpServletRequest request,
 			HttpServletResponse response)
 			{
-		System.out.println("뷰 : "+Sentry.cmd.getView());
+		System.out.println("뷰 : "+Receiver.cmd.getView());
 		try {
-			request.getRequestDispatcher(Sentry.cmd.getView()) //System.out.println(); 를 패턴화한 것?
+			request.getRequestDispatcher(Receiver.cmd.getView()) //System.out.println(); 를 패턴화한 것?
 			.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -3,12 +3,12 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "domain.*" %>
 
-<%
+<%-- <%
 	List<MemberBean> lst =
 		MemberServiceImpl
 		.getInstance()
-		.listMember(); 
-%>
+		.search(); 
+%> --%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -38,7 +38,7 @@
 		</tr>
 		
 	</table>
-
+<%-- 
 	<%
 for(int i = 0; i<lst.size(); i++){
 %>
@@ -54,7 +54,7 @@ for(int i = 0; i<lst.size(); i++){
 		</tr>
 <%
 }		
-%>	
+%>	 --%>
 <input type="hidden" name="action" value="memberlist" />
 			
 </form>

@@ -4,31 +4,29 @@
 <c:set var="context" value="<%=application.getContextPath()%>" />
 <!doctype html>
 <html lang="en">
-<jsp:include page="common/head.jsp" />
+<jsp:include page="../common/head.jsp" />
 <body>
-	<!-- 여기는 그냥 메인이야 -->
+	<!-- 여기는커먼 메인이야 -->
 <!-- 	// -->
 	<div id="wrapper">
 		<div id="header">
 
-			<jsp:include page="common/titleBox.jsp" />
+			<jsp:include page="titleBox.jsp" />
 			<div id="login">
-				<jsp:include page="common/loginBox.jsp" />
+			
+				<jsp:include page="loginBox.jsp" />
 			</div>
 			<div id="menu">
-				<jsp:include page="common/menuBox.jsp" />
+				<jsp:include page="menuBox.jsp" />
 			</div>
 		</div>
 		<div id="content">
-			<jsp:include page="common/contentBox.jsp" />
+			<jsp:include page="contentBox.jsp" />
 		</div>
 	</div>
 
 	<script>
-	function move(domain, action, page) {
-		location.href = "${context}/" + domain + ".do?action=" + action
-				+ "&page=" + page;
-	}
+	common.main('${context}');
 	</script>
 </body>
 </html>

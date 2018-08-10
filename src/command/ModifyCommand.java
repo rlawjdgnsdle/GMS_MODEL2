@@ -1,13 +1,15 @@
 package command;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import domain.MemberBean;
-import enums.Domain;
 import service.MemberServiceImpl;
 
-public class UpdateCommand extends Command {
-	public UpdateCommand(HttpServletRequest request) {
+public class ModifyCommand extends Command {
+	public ModifyCommand(HttpServletRequest request) {
 		setRequest(request);
 		setDomain(request.getServletPath().substring(1, request.getServletPath().indexOf(".")));
 		setAction(request.getParameter("action"));
@@ -17,19 +19,20 @@ public class UpdateCommand extends Command {
 	@Override
 	public void execute() {
 		System.out.println("업데이트 커맨드 진입");
-	     MemberBean mu = (MemberBean)request.getSession().getAttribute("user");
+	     /*MemberBean mu = (MemberBean)request.getSession().getAttribute("user");*/
 		/*switch(Domain.valueOf(Sentry.cmd.domain.toUpperCase())) {
 		case MEMBER :*/
-	     
+	     Map<String, Object> param = new HashMap<>();
 			  System.out.println("업데이트 커맨드에서 DB가기 전");
-		      mu.setMemId(mu.getMemId());
+		MemberBean mu = (MemberBean)request.getSession().getAttribute("user");
+			  mu.setMemId(mu.getMemId());
 		      System.out.println();
 		      mu.setPassword(request.getParameter("password")+
 		    		  "/"+(request.getParameter("newPass")));
 		      
 		      mu.setRoll(request.getParameter("roll"));
 		      mu.setTeamId(request.getParameter("teamId"));
-			  MemberServiceImpl.getInstance().updateMember(mu);
+			  MemberServiceImpl.getInstance().modify(param);
 			  System.out.println("mu.toString : "+ mu.toString());
 		/*default:
 			break;

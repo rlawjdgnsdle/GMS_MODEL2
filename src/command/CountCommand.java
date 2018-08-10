@@ -17,7 +17,7 @@ public class CountCommand extends Command{
 	public void execute() {
 		System.out.println("너어디야");
 		request.setAttribute("count",
-					MemberServiceImpl.getInstance().countMember());
+					MemberServiceImpl.getInstance().count());
 		super.execute();
 	}
 }

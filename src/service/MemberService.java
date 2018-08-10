@@ -6,16 +6,11 @@ import java.util.Map;
 import domain.MemberBean;
 
 public interface MemberService {
-	public void insertMember(MemberBean Member);
-	public List<MemberBean> listMember();
-	public List<MemberBean> getList(Map<?,?>param); // ? = 와일드카드 
-	public List<MemberBean> findByWord(String word);
-	public List<MemberBean> findByName(String word);
-	public MemberBean findById(String word);
-	public int countMember();
-	public void updateMember(MemberBean bean);
-	public void deleteMember(MemberBean bean);
+	public void add(MemberBean Member);
+	public List<MemberBean> search(Map<?,?>param); // ? = 와일드카드 
+	public MemberBean retrieve(String word);
+	public int count();
+	public void modify(Map<?,?>param);
+	public void remove(MemberBean Member);
 	public boolean login(MemberBean bean);
-	public void insertAdminMember(MemberBean Member);
-
 }

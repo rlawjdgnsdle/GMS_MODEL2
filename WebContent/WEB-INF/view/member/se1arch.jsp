@@ -18,6 +18,6 @@
 	<input type="hidden" name="page" value="searchTeamFromResult" />
 	<input type="submit" value="전송" />
 	
-	</form>S
+	</form>
 </body>
 </html>
