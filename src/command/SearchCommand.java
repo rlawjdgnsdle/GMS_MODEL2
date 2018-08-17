@@ -1,41 +1,75 @@
 package command;
 
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
+import enums.Domain;
+import proxy.*;
 import service.MemberServiceImpl;
 
-
-public class SearchCommand extends Command {
+public class SearchCommand extends Command{
 	public SearchCommand(HttpServletRequest request) {
+		System.out.println("서치커맨/드");
 		setRequest(request);
-		setDomain(request.getServletPath().substring(1, request.getServletPath().indexOf(".")));
+		setDomain(request.getServletPath().substring(1,  
+				request.getServletPath().indexOf(".")));
 		setAction(request.getParameter("action"));
+		System.out.println(request.getParameter("action"));
 		setPage(request.getParameter("page"));
-		execute();
+		System.out.println(request.getParameter("page"));
+		execute(); 
 	}
-@Override 
-public void execute() {
-	System.out.println("서치커맨드진입");
-	String searchOption = request.getParameter("searchOption"); // 
-	String searchWord = request.getParameter("searchWord");
-	String page = request.getParameter("page");
-	String action = request.getParameter("action");
-	String domain = super.domain;
-	System.out.println("=======================[서치커맨드 익스큐트에 리퀘스트가 가지고 온 것]=======================");
-	System.out.println("searchOption : "+searchOption);
-	System.out.println("searchWord : "+searchWord);
-	System.out.println("page : "+page);
-	System.out.println("action : "+action);
-	System.out.println("domain : "+domain);
-	System.out.println("=======================[서치커맨드 익스큐트에 리퀘스트가 가지고 온 것]=======================");
-	/*select * from domain where searchOption like '%searchWord%' */
-//	List<MemberBean> list = MemberServiceImpl.getInstance().findByName(searchWord);
-	request.setAttribute("list",MemberServiceImpl.getInstance().findByWord(searchOption+"/"+searchWord));
-	super.execute();
-	/*if(searchOption.equals("teamid")) {
-	request.setAttribute("member", MemberServiceImpl.getInstance().findByTeamId(request.getParameter("searchOption")));
-	}else if(searchOption.equals("name")){
-	request.setAttribute("member", MemberServiceImpl.getInstance().findByName(request.getParameter("searchOption")));	*/
-	
+	@Override
+	public void execute() {
+		List<?> members = null;
+		Map<String,Object>paramMap = new HashMap<>();
+		String pageNum = request.getParameter("pageNum");
+		PageProxy pxy = new PageProxy();
+		Pagination page = null;
+		String ar1,ar2;
+		
+		if(!(request.getParameter("option")==null)) {
+			if(request.getParameter("option").equals("none")) {
+				request.getSession().removeAttribute("option");
+			}else {
+				request.getSession().setAttribute("option", request.getParameter("option"));
+				request.getSession().setAttribute("word", request.getParameter("word"));
+			}
+		}
+		
+		if(!(request.getSession().getAttribute("option")==null)) {
+			String word = 
+					request.getSession().getAttribute("option")+"/"
+					+request.getSession().getAttribute("word");
+			pxy.carryOut((pageNum==null)?
+					"1/"+word:
+					pageNum+"/"+word);
+			page = pxy.getPagination();
+			ar1 = "domain/beginRow/endRow/column/value";
+			ar2 = 
+				Domain.MEMBER.toString()+"/"
+				+String.valueOf(page.getBeginRow())+"/"
+				+String.valueOf(page.getEndRow())+"/"
+				+(String) request.getSession().getAttribute("option")+"/"
+				+(String) request.getSession().getAttribute("word");
+		}else {
+			pxy.carryOut((pageNum==null)?
+					"1":
+					pageNum);
+			page = pxy.getPagination();
+			ar1 = "domain/beginRow/endRow";
+			ar2 = 
+				Domain.MEMBER.toString()+"/"
+				+String.valueOf(page.getBeginRow())+"/"
+				+String.valueOf(page.getEndRow());
+		}
+		String[] arr1 = ar1.split("/"), 
+				 arr2 = ar2.split("/");
+		for(int i=0;i<arr1.length;i++) {
+			paramMap.put(arr1[i], arr2[i]);
+		}
+		request.setAttribute("page", page);
+		members = MemberServiceImpl.getInstance().search(paramMap);
+		request.setAttribute("list", members);
+		super.execute();
 	}
 }
-

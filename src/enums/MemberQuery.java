@@ -1,118 +1,93 @@
 package enums;
 
-public enum MemberQuery {
-	LOGIN, INSERT_MEMBER, 
-	COUNT, UPDATE, 
-	SELECT_ALL_MEMBER, SELECT_ALL,
-	FINE_BY_TEAMNAME, FIND_BY_ID, 
-	DELETE, INSERT_ADMIN_MEMBER
-	, UPDATE_TEAMID	, UPDATE_ROLL, SEARCH, FINDBYNAME;
+import template.ColumnFinder;
 
-	@Override
-	public String toString() {
-		String query = "";
-		switch (this) {
-		case LOGIN:
-			query = " SELECT MEM_ID , "
-				    + " TEAM_ID, " 
-					+ " MEM_NAME, "
-					+ " AGE, "
-					+ " ROLL, "
-					+ " PASSWORD, "
-					+ " SSN "
-					+ " FROM MEMBER "
-					+ " WHERE MEM_ID LIKE '%s' "
-					+ " AND PASSWORD LIKE '%s' ";
-			break;
+public enum MemberQuery {
+	INSERT,
+	LIST,SEARCH,RETRIEVE,COUNT,
+	UPDATE,
+	DELETE,  
+	LOGIN,
+	EXIST_ID, SEARCHED_COUNT, PHOTO;
 	
-		case INSERT_MEMBER:
+	@Override
+	public String toString() {	
+		String query = "";
+		switch(this) {
+		case INSERT : 
 			query = "INSERT INTO MEMBER "
-					+ "(MEM_ID, MEM_NAME, SSN, PASSWORD) "
+					+ "(MEM_ID, MEM_NAME, SSN, PASSWORD, AGE, "
+					+ "GENDER, ROLL, TEAM_ID) "
 					+ "VALUES "
-					+ "('%s','%s','%s','%s')";
-			/*
-			 TEAM_ID, GENDER, AGE, ROLL
-			 ,'%s','%s','%s','%s'*/
+					+ "(?, ?, ?, ?, ?, ?, ?, ? )";
 			break;
-				
-		case COUNT :
+		
+		case LIST : 
+			query = 
+			  "SELECT * FROM ( "
+			+ "SELECT ROWNUM NO, A.* "
+			+ "FROM ( "
+			+ "SELECT * "
+			+ "FROM %s) A "
+			+ "ORDER BY NO DESC) B "
+			+ "WHERE NO BETWEEN ? AND ? ";
+			break;
+		case SEARCH : 
+			System.out.println("서치쿼리");
+			query = 
+			  "SELECT * FROM ( "
+			+ "SELECT ROWNUM NO, A.* "
+			+ "FROM ( "
+			+ "SELECT * "
+			+ "FROM %s "
+			+ "WHERE %s LIKE ? ) A "
+			+ "ORDER BY NO DESC) B "
+			+ "WHERE NO BETWEEN ? AND ? ";
+			break;
+		case RETRIEVE : 
+			System.out.println("리트리브 쿼리");
+			query = "SELECT "
+					+"* "
+					+"FROM MEMBER "
+					+"WHERE %s "
+					+"LIKE ? ";
+			break;
+		case COUNT : 
 			query = "SELECT COUNT(*) AS count FROM MEMBER";
 			break;
-			
-		case SELECT_ALL :
-/*		query = "SELECT * FROM MEMBER";*/
-			System.out.println("설렉트올 쿼리방문");
-		query = "SELECT t.* FROM "
-				+ "(SELECT ROWNUM seq, m.* FROM MEMBER m order by seq DESC)t"
-				+ " where t.seq between %s and %s ";						
-			
-			break;
-			
-			
-		case SEARCH :
-		query = " SELECT "
-					 + "   MEM_ID, "
-				     + "   PASSWORD, "
-				     + "   MEM_NAME,   "
-				     + "   SSN,    "
-				     + "   ROLL,   "
-				     + "   TEAM_ID   "
-				     + " FROM MEMBER "
-					 + "	WHERE TEAM_ID LIKE '%s' ";
-			
-	/*		query = "SELECT B.* "
-					+ " FROM ( "
-					+ " SELECT "
-					+ " ROWNUM NO, "
-					+ " A.* "
-					+ " FROM ( "
-				+ " SELECT MEM_ID "
-				+ " FROM MEMBER "
-				+ " ) A "
-			+ " ORDER BY NO DESC "
-			+ ") B "
-			+ " WHERE B.NO BETWEEN 1 AND 5 "
-			;*/
-
-			break;
-		case FIND_BY_ID	:
-			System.out.println("파인드바이아이티 쿼리방문");
-			query = "  SELECT "
-					 + "   MEM_ID, "
-				     + "   PASSWORD, "
-				     + "   MEM_NAME,   "
-				     + "   SSN,    "
-				     + "   ROLL,   "
-				     + "   TEAM_ID   "
-					 + "   FROM  MEMBER   "
-					 + "   WHERE MEM_ID LIKE '%s'  ";
-			break;
-		case DELETE : 
-			query = " DELETE FROM MEMBER "
-					+ " WHERE MEM_ID LIKE '%s'   "
-					+ " AND PASSWORD LIKE '%s'  ";
+		case SEARCHED_COUNT :
+			query = "SELECT COUNT(*) AS count FROM MEMBER "
+					+ "WHERE %s LIKE ? "; 
 			break;
 		case UPDATE : 
-			System.out.println("비밀번호 업데이트 쿼리 방문");
-			query = "UPDATE MEMBER SET PASSWORD = '%s' , TEAM_ID ='%s', ROLL = '%s' " 
-					+ "WHERE MEM_ID LIKE '%s' "
-					+ "AND PASSWORD LIKE '%s'";
+			query = "UPDATE MEMBER "
+				  + "SET %s = ?, "
+				  + "%s = ?, "
+				  + "%s = ? "
+				  + "WHERE MEM_ID LIKE ? ";
 			break;
-		case FINDBYNAME :
-			System.out.println("파인드바이네임 쿼리 진입");
-			query = "  SELECT "
-					 + "   MEM_ID, "
-				     + "   PASSWORD, "
-				     + "   MEM_NAME,   "
-				     + "   SSN,    "
-				     + "   ROLL,   "
-				     + "   TEAM_ID   "
-					 + "   FROM  MEMBER   "
-					 + "   WHERE MEM_NAME LIKE '%s'  ";
+		case DELETE : 
+			query = "DELETE FROM MEMBER "
+					+ "WHERE MEM_ID LIKE ? "
+					+ "AND PASSWORD LIKE ? ";
 			break;
-		default:
+		case LOGIN : 
+			query = "SELECT "
+					+"* "
+					+" FROM MEMBER "
+					+" WHERE MEM_ID LIKE ? "
+					+" AND PASSWORD LIKE ? ";
+			break;
+		
+		case PHOTO : 
+			query = " INSERT INTO "
+					+ " IAMGE "
+					+ " (IMG_SEQ, IMGNAME, EXTENSION, MEM_ID) "
+					+ " VALUES (?, ?, ?, ?) ";
 			break;
 		}
+		
 		return query;
 	}
+	
 }

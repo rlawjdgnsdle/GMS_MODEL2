@@ -1,18 +1,14 @@
 package domain;
 
-import java.util.List;
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class MemberBean {
-	private String memId, teamId, memName, ssn, roll, password, age, subject, gender;
+	private String memberId,teamId,name,ssn,roll,pass,age,gender,subject;
 
 	@Override
 	public String toString() {
-		return "MemberBean [memId=" + memId + 
-				", teamId=" + teamId + ", memName=" + memName + ", ssn=" + ssn + ", roll="
-				+ roll + ", password=" + password + ", age=" + age + ", subject=" + subject + ", gender=" + gender
-				+ "]";
+		return "MemberBean [memberId=" + memberId + ", teamId=" + teamId + ", name=" + name + ", ssn=" + ssn + ", roll="
+				+ roll + ", pass=" + pass + ", age=" + age + ", gender=" + gender + ", subject=" + subject + "]";
 	}
-	
 }

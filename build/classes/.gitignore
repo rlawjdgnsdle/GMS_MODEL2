@@ -1,7 +1,8 @@
-/PageProxy/
+/DAO/
+/Test/
 /command/
 /controller/
-/dao/
+/decorator/
 /domain/
 /enums/
 /factory/
@@ -9,4 +10,3 @@
 /proxy/
 /service/
 /template/
-/test/

@@ -1,37 +1,269 @@
 "use strict";
-var router = (()=>{ // ()이름이없어서 비움
-	return {move : x=>{ // 이름이 있을땐 ()을 벗김 파라미터가 있을 때 X 없을 때 ()
-		location.href =
-			x.context + '/'
-			+ x.domain
-			+ '.do?action='+ x.action
-			+ "&page=" + x.page
-	}};
+var router = ( ()=>{
+           return {move : x => {
+                location.href =
+                     x.context+"/"
+                     +x.domain
+                     +".do?action="+x.action
+                     +"&page="+x.page;
+                }};//closure, key(String) & value(object)의 map구조, scalar 문법
+     })();  //이때는 ;이 빠지면 에러
+
+var members = (()=>{
+	return {
+		main : x=>{
+			switch(x.pagename){
+			case "add" : 
+				document.getElementById('joinBth')
+				.addEventListener('click',function(){
+					var y = (service.nullChecker(
+							{id:document.joinForm.userid.value,
+							 pass:document.joinForm.pass.value,
+							 name:document.joinForm.name.value,
+							 ssn:document.joinForm.ssn.value}
+							)
+					);
+					if(y.checker){
+						var form = document.getElementById('joinForm');
+						form.action = x.context+"/member.do";
+						form.method = "POST"; 
+						member.join({
+							 id:form.userid.value,
+							 pass:form.pass.value,
+							 name:form.name.value,
+							 ssn:form.ssn.value});
+						var arr =[
+							{name:"action", value:"add"},
+							{name:"gender", value:member.getGender()},
+							{name:"age", value:member.getAge()}];
+						for(var i=0;i<arr.length;i++){
+							var node = document.createElement('input');
+							node.setAttribute('type','hidden');
+							node.setAttribute('name',arr[i].name);
+							node.setAttribute('value',arr[i].value);
+							form.appendChild(node);
+						} 
+						form.submit();
+					}else{
+						alert(y.text);
+					}
+				});
+				break;
+			case 'login':
+				document.getElementById('login_btn')
+				.addEventListener('click',function(){
+					var y = service.nullChecker(
+							{id:document.loginForm.userid.value,
+							 pass:document.loginForm.pass.value}
+							);
+					if(y.checker){
+						var form = document.getElementById('loginForm'); 
+						form.action = x.context+"/member.do";
+						form.method = "post"; 
+						form.submit();
+					}else{
+						alert(y.text);
+					}
+				});
+				break;
+			case 'modify':
+				var form = document.getElementById('updateForm');
+				/*var teamid = document.getElementsByName('teamid');
+				for(var i in teamid){
+					if(teamid[i].value === x.user.teamId.toLowerCase()){
+						document.getElementById(teamid[i].value).checked = true;
+					}
+				}
+
+				var roll = document.getElementById('roll');
+				for(var i=0;i<roll.options.length;i++){
+					if(roll.options[i].value === x.user.roll){
+						roll.options[i].setAttribute("selected","selected");
+					}
+				}
+
+				var newPass = form.newPass.value;*/
+				document.getElementById('updateBtn')
+				.addEventListener('click',function(){
+						var node = document.createElement('input');
+						node.setAttribute('type','hidden');
+						node.setAttribute('name','action');
+						node.setAttribute('value','modify');
+						form.appendChild(node);
+						form.action = x.context+"/member.do";
+						form.method = "post"; 
+						form.submit();
+					
+				});
+				break;
+			case 'remove':
+				alert('remove 페이지 진입');
+				document.getElementById('deleteBtn')
+				.addEventListener('click',function(){
+					alert('삭제클릭');
+				
+				})
+				break;
+			default :
+				document.getElementById('moveUpdateForm')
+				.addEventListener('click',
+						function(){  //콜백 함수
+							router.move(
+									{context : x.context,
+									domain : 'member',
+									action : 'move',
+									page : 'modify'
+										}
+									)
+						}
+				);
+
+				document.getElementById('moveDeleteForm')
+				.addEventListener('click',
+						function(){  
+							router.move(
+								{context : x.context,
+								domain : 'member',
+								action : 'move',
+								page : 'remove'
+									}
+								)
+						}
+				);
+				
+				document.getElementById('logOut')
+				.addEventListener('click',
+						function(){
+							alert('로그아웃 click')
+							router.move()
+						}
+				
+				);
+				break;
+			}
+			document.getElementById('profile')
+			.addEventListener('click',function(){
+				service.addClass(this, 'width-200 height-150');
+			})
+		}
+	}
 })();
 
-/*
- * var service = (()=>{ return { loginValidation : x => { () or x
- * if(x.userid.value===''){ alert('아이디를 입력하세요'); return false; }else
- * if(x.password.value===''){ alert('비밀번호를 입력하세요'); return false; }else{ return
- * true; } }
- */		/*
-		 * ,joinValidation : x=>{ var ok = false;
-		 * 
-		 * return ok; }
-		 */
-/*
- * }; })();
- */
-
+var common = (()=>{
+	return {
+		main : x=>{
+			document.getElementById('moveAdmin')
+			.addEventListener('click',function(){  
+				router.move(
+						{context : x,
+						domain : 'admin',
+						action : 'search',
+						page : 'main'}
+						)
+				
+			}
+			);
+			document.getElementById('move_user_login_form')
+        	.addEventListener('click',function(){ 
+        			router.move(
+        					{context : x,
+        						domain : 'member',
+        						action : 'move',
+        						page : 'login'}
+        					)
+        			}
+        	);
+        	document.getElementById('move_join_form')
+        	.addEventListener('click',function(){  
+        			router.move(
+        					{context : x,
+        						domain :'member',
+        						action :'move',
+        						page :'add'})
+        			}
+        	);
+		}
+	};
+})();
+var admin = (()=>{
+	return{
+		main : x=>{
+			document.getElementById('searchBtn')
+			.addEventListener('click',function(){
+				if(document.getElementById('option').value !== 'none'){
+					if(document.getElementById('word').value!==""){
+						var domain = "";
+						var action = "";
+						switch(document.getElementById('option').value){
+						case 'mem_id' :
+							domain = "member";
+							action = "retrieve";
+							break;
+						case 'name' :		
+						case 'team_id' :
+							domain = "admin"
+							action = "search";
+							break;
+						default : break;
+						}
+					 location.href = x
+					+"/"+domain+".do?"
+					+"action="+action
+					+"&option="
+					+document.getElementById('option').value
+					+"&word="
+					+document.getElementById('word').value
+					+"&table=member"
+					}else{
+						alert('검색어를 입력하세요.');
+					}
+				}else{
+					 alert('검색조건을 선택하세요');
+				}
+			}); 
+			
+			document.getElementById('listBtn')
+			.addEventListener('click',function(){
+				location.href =
+					x+"/admin.do?action=search"
+					+"&option=none"		
+			})
+			
+			document.getElementById('contentBoxMeta').style.width = '80%';
+			document.getElementById('contentBoxMeta').className = 'bgColorisYellow';
+			
+			for(var i of document.querySelectorAll('.username')){
+                 service.addClass(i,'cursor fontColorBlue');
+                 i.addEventListener('click',function(){
+                       location.href = x
+                            +"/member.do?action=retrieve&page=main&option=mem_id&table=member&word="
+                           +this.getAttribute('id');
+                 });
+            };
+            for(var i of document.querySelectorAll('.pageNum')){
+            	service.addClass(i,'cursor fontColorBlue');
+            	i.addEventListener('click',function(){
+        			location.href = x
+        			+"/admin.do?action=search&page=main&pageNum="
+        			+this.getAttribute('id');
+        		});
+        	};
+        	
+        	
+        	
+		}//main method 끝
+	}
+}
+)();
 var service = (()=>{
-	return { 
+	return {
 		nullChecker : x=>{
 			var json = {
 					checker : true,
-					text : '필수입력값이 없습니다'
-			};
-			for(var i in x){
-				if(x[i]===''){
+					text : '필수 입력값이 없습니다.'
+			}; //closure 가 없는 객체, 가볍다.
+			for(var key in x){ // for-each loop
+				if(x[key] === ""){
 					json.checker = false;
 				}
 			}
@@ -39,156 +271,125 @@ var service = (()=>{
 		},
 		addClass : (dom,cName)=>{
 			var arr = cName.split(" ");
-				if(arr.indexOf(cName) == -1){
+				if(arr.indexOf(cName) == -1){ //없을때 -1을 리턴
 					dom.className += " " + cName;
 				}
-		}
-	}
-}
-)();
-
-
-
-
-var admin = (()=>{
-	return {
-		check : x =>{
-//			var isAdmin = confirm('관리자입니까');
-//			if(isAdmin){
-//				var password = prompt('관리자 비번을 입력바랍니다');
-//				if(password == 1){
-					router.move({context : x,
-						domain : 'admin',
-						action : 'list',
-						page : 'main'
-					 });
-				/*}else{
-					alert('꺼져')
-				}
-			}else{
-				alert('꺼져')
-			}*/
 		},
-		main : x=>{ 
-			 service.addClass(
-						document.getElementById('searchBox'),'width80pt center '		 
-					 );
-					 service.addClass(
-					 	document.getElementById('searchWord'),'width100px floatRight '	 
-					 );
-					 service.addClass(
-						document.getElementById('searchOption'),'floatRight '
-					 );
-					 service.addClass(
-								document.getElementById('searchBtn'),'floatRight '
-							 );
-					 service.addClass(
-								document.getElementById('searchOption'),'floatRight '
-							 );
-					 service.addClass(
-								document.getElementById('contentBoxTab'),'width90pt center marginTop30px '
-							 );
-
-					 service.addClass(
-						document.getElementById('contentBoxMeta'),'bgColorBlack '
-					 );
-					 /* => Array */ /* var x = document.getElementById('aaa');  =>  Object , 스칼라 */
-					 for(var i of document.querySelectorAll('.username')){
-						 i.style.color = 'black';
-						 i.style.cursor = 'pointer';
-						 i.addEventListener('click',function(){
-						 location.href= x+'/admin.do?action=retrieve&'
-									 		+'page=memberDetail&userid='
-									 		+ this.getAttribute('id');
-							 /* alert('멤버 ID : '+this.getAttribute('id')); */
-						 });
-					 };
-
-					 for(var i of document.querySelectorAll('.pageNum')){
-						 i.style.color = 'blue';
-						 i.style.cursor = 'pointer';
-						 i.addEventListener('click', function(){
-							 location.href = x+'/admin.do?action=list&'
-							 				+  'page=main&pageNum='
-							 				+ this.getAttribute('id');
-						 });
-					 };
-					 
-					 
-					 /* document.getElementById('c  ontentBoxMeta').className = 'bgColorisBlack'; */
-					 document.getElementById('searchBtn')
-					 .addEventListener('click',function(){
-					 		alert('ttts');
-					location.href = (document.getElementById('searchOption').value === 'userid')
-							? x+'/admin.do?action=retrieve&page=memberDetail&userid='+document.getElementById('searchWord').value 
-							: x+'/admin.do?action=search&page=main&searchOption='
-							+document.getElementById('searchOption').value+'&searchWord='+document.getElementById('searchWord').value
-							;
-					 	});
-					
-		}
-};})();
-var member = (()=>{ 
-		var _memId,_ssn,_password, _teamId, _roll, __memName, _gender, _age; 
-		var setMemId = (memId)=>{this._memId = memId;};
-		var setSsn = (ssn)=>{this._ssn = ssn;};
-		var setPassword = (password)=>{this._password = password;};
-		var setTeamId = (teamId)=>{this._teamId = password;};
-		var setRoll = (roll)=>{this._roll = password;};
-		var setMemName = (memName)=>{this._memName = memName;};
-		var setGender =(gender)=>
-			{ 
-				switch(gender.charAt(7)){
-				case 1 : case 3 : this._gender ='남자';
-				 /* : setGender("남자"); */
-				case 5 : this._gender ="남자외국인";
-				case 2 : case 4 :this._gender ="여자";
-				 /* : setGender("여자"); */
-				case 6 : this._gender ="여자외국인";
-				default : break;
-				}};
-		var setAge =x=>{
-			var date = new Date().getFullYear();
-			this._age = date-parseInt("19"+x.substring(0, 2));
-			alert(date);
-			alert(date-parseInt("19"+x.substring(0, 2)));
-		}
-		var getAge =()=> {return this._age;}
-		var getMemId = ()=>{return this._memId;};
-		var getSsn = ()=>{return this._ssn;};
-		var getPassword = ()=>{return this._password;};
-		var getTeamId = ()=>{return this._teamId;};
-		var getRoll = ()=>{return this._roll;};
-		var getMemName = ()=>{return this._memName;};
-		var getGender = ()=>{return this._gender;};
-		return{  // 여기부터 먼저 들러서 밖으로 나간다 여기만 열려있음 리턴에 선언된 것이 public 외부가
-					// private
-			setMemId : setMemId,
-			setSsn : setSsn,
-			setPassword : setPassword,
-			setGender : setGender,
-			setAge : setAge,
-			setTeamId : setTeamId,
-			setRoll : setRoll,
-			setMemName : setMemName,
-			getMemId : getMemId,
-			getSsn : getSsn,
-			getPassword : getPassword,
-			getGender : getGender,
-			getAge : getAge,
-			getTeamId : getTeamId,
-			getRoll : getRoll,
-			getMemName : getMemName,
-			join : x=>{
-					member.setAge(x.SSN);
-					member.setGender(x.SSN);
-				/*
-				 * if(x.getMemid===''){ alert('아이디를 입력하세요'); return false; }else
-				 * if(x.getPassword===''){ alert('비밀번호를 입력하세요'); return false;
-				 * }else{ return true; }
-				 */
+		loginvalidation : x => {
+			var flag = false;
+			
+			if(x[0] === ""){
+				
+			}else if(x[1]=== ""){
+				
+			}else{
+				flag = true;
 			}
-};
+			return flag;
+		},
+		joinValidation : x => {
+			var flag = false;
+			
+			if(x[0] === ""){ 
+			
+			}else if(x[1]===""){
+				
+			}else if(x[2].substring(7,8)==7 || x[2].substring(7,8)==8){
+
+			}else if(parseInt(x[2].substring(2,3))<=0 
+					|| parseInt(x[2].substring(2,3))>=13){
+				
+			}else if(parseInt(x[2].substring(4,5))<=0 
+					|| parseInt(x[2].substring(4,5))>=32){
+				
+			}else{
+				flag = true;
+			}
+			return flag;
+		}
+	};
 })();
 
-	
+var member = (()=> {
+	var _memberId,_ssn,_pass,_name,_age,_teamId,_gender,_roll;		
+	var setMemberId = (memberId)=> {
+		if(memberId.length>=2){
+			this._memberId = memberId;
+		}else{
+			alert('아이디는 2자 이상입력 하세요.');
+		}
+	}
+	var setSsn = (ssn)=> {
+		var flag = false;
+		if(ssn.substring(7,8)==7 || ssn.substring(7,8)==8){
+
+		}else if(parseInt(ssn.substring(2,4))<=0 
+				|| parseInt(ssn.substring(2,4))>=13){
+			
+		}else if(parseInt(ssn.substring(4,6))<=0 
+				|| parseInt(ssn.substring(4,6))>=32){
+				
+		}else if(ssn.substring(6,7)==="-"){
+			flag = true;
+		}
+		if(flag){
+			this._ssn = ssn;
+		}else{
+			alert('잘못된 주민번호');
+		}
+	}
+	var setName = (name)=> {this._name = name;}
+	var setPass = (pass)=> {this._pass = pass;}
+	var setAge = x=> {
+		this._age = (new Date().getFullYear())-parseInt('19'+x.substring(0,2));
+		}
+	var setTeamId = (teamId )=> {this._teamId = teamId;}
+	var setRoll = (roll)=> {this._roll = roll;}
+	var setGender = x=> {
+		var gender;
+		if(parseInt(x.substring(7,8)) % 2 == 1){
+			gender = '남';
+		}else{
+			gender = '여';
+		}
+		this._gender = gender;
+		}
+	var getMemberId = ()=> {return this._memberId;}
+	var getSsn =  ()=> {return this._ssn;}
+	var getPass =  ()=> {return this._pass;}
+	var getName =  ()=> {return this._name;}
+	var getTeamId =  ()=> {return this._teamId;}
+	var getSsn =  ()=> {return this._ssn;}
+	var getRoll =  ()=> {return this._roll;}
+	var getAge =  ()=> {return this._age;}
+	var getGender =  ()=> {return this._gender;}
+	return {
+		setMemberId : setMemberId,
+		setSsn : setSsn,
+		setPass : setPass,
+		setAge : setAge,
+		setTeamId : setTeamId,
+		setName : setName,
+		setGender : setGender,
+		setRoll : setRoll,
+		getMemberId : getMemberId,
+		getSsn : getSsn,
+		getPass : getPass,
+		getAge : getAge,
+		getTeamId : getTeamId,
+		getName : getName,
+		getGender : getGender,
+		getRoll : getRoll,
+		join : x=>{
+			member.setMemberId(x.id);
+			member.setPass(x.pass);
+			member.setName(x.name);
+			member.setSsn(x.ssn);
+			member.setAge(x.ssn);
+			member.setGender(x.ssn);
+		}
+	}
+})();
+
+(function(){})(); //goofy
+(function(){}()); //groovy

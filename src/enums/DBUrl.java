@@ -1,7 +1,7 @@
 package enums;
 
 public enum DBUrl {
-ORACLE_URL;
+	ORACLE_URL;
 	
 	@Override
 	public String toString() {

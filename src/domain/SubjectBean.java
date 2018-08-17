@@ -3,8 +3,12 @@ package domain;
 import lombok.Data;
 
 @Data
-public class SubjectBean {
-	public String subname;
-	public String java, sql, html5, r, python;
+public class SubjectBean {	
+	private String subSeq,subName;
+
+	@Override
+	public String toString() {
+		return "SubjectBean [subSeq=" + subSeq + ", subName=" + subName + "]";
+	}
 	
 }

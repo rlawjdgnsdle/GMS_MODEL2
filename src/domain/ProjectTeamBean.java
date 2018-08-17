@@ -4,7 +4,12 @@ import lombok.Data;
 
 @Data
 public class ProjectTeamBean {
-	public String teamId;
-	public String teamName;
-	
+	private String teamId,teamName;
+
+	@Override
+	public String toString() {
+		return "ProjectTeamBean [teamId=" + teamId + ", teamName=" + teamName + "]";
+	}
+
+
 }

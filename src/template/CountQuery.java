@@ -1,42 +1,48 @@
 package template;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import enums.MemberQuery;
-import factory.DatabaseFactory;
-
-public class CountQuery extends QuertTemplate {
+public class CountQuery extends QueryTemplate{
 
 	@Override
 	void initialize() {
-		System.out.println("카운트 쿼리 들어옴");
-		map.put("sql", MemberQuery.COUNT.toString());
-		System.out.println("카운트쿼리임"+MemberQuery.COUNT.toString());
+		if(map.get("column")!=null) {
+			map.put("sql", 
+					String.format(
+							MemberQuery.SEARCHED_COUNT.toString(),
+							map.get("column").toString()
+							)
+					
+					);
+		}else {
+			map.put("sql", MemberQuery.COUNT.toString());
+		}
 	}
 
 	@Override
 	void startPlay() {
-		try {
-			pstmt = DatabaseFactory.createDatabase2(map).getConnection().prepareStatement((String) map.get("sql"));
-		} catch (Exception e) {
-			e.printStackTrace();
+		System.out.println("카운트 쿼리 템플릿 startPlay");
+		if(map.get("column")!=null) {
+			try {
+				pstmt.setString(1, 
+						"%"+(String) map.get("value")+"%");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
+
 	@Override
 	void endPlay() {
-		number = 0;  // super 생략
-		ResultSet rs;
+		number = 0;
 		try {
-			rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
-				number = rs.getInt("COUNT");
+				number = rs.getInt("count");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
-	
 }

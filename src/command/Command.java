@@ -1,16 +1,19 @@
 package command;
 
 import javax.servlet.http.HttpServletRequest;
-import lombok.Data;
 
+import enums.Term;
+import lombok.Data;
 @Data
-public class Command implements Order {   //bean하고 service가 합쳐졌다…?
+public class Command implements Order{
 	protected String action,domain,page,view;
 	protected HttpServletRequest request;
 
 	@Override
 	public void execute() {
-	this.view = "/WEB-INF/view/"+domain+"/"+page+".jsp";
+		System.out.println("커맨드 execute");
+		this.view = "/WEB-INF/view/"+domain+Term.MAIN;
+		System.out.println("가져온 view의 값은 : "+view);
 	}
+	
 }
-//11

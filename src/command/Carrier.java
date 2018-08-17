@@ -1,29 +1,28 @@
 package command;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
-public class Carrier {  //보내는 일 외에는 하지 않는다.
-	public static void foward(HttpServletRequest request,
-			HttpServletResponse response)
-			{
-		System.out.println("뷰 : "+Sentry.cmd.getView());
+public class Carrier {
+	public static void forward(HttpServletRequest request,
+			HttpServletResponse response) {
 		try {
-			request.getRequestDispatcher(Sentry.cmd.getView()) //System.out.println(); 를 패턴화한 것?
+			request
+			.getRequestDispatcher(Receiver.cmd.getView())
 			.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		} 
+		
 	}
 	public static void redirect(HttpServletRequest request,
-			HttpServletResponse response,String url) {
+			HttpServletResponse response,
+			String url) {
 		try {
-			response.sendRedirect(request.getContextPath()+url);
+			response.sendRedirect(
+					request.getContextPath()
+					+url);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 }
-
-//Sentry가 결정지으면 캐리어는 받아서 view로 보내기만 한다…?  
